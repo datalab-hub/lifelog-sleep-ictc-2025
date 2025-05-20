@@ -12,6 +12,8 @@ RandomforestClassifier -> gird search LGBM (⏫)
 
 🗐 dacon_etri_base_mod3_1.ipynb
 
-Improved code upon dacon_etri_base_mod2.ipynb
+Improved code upon dacon_etri_base_mod3.ipynb
 
-Changed: gird search LGBM  <- L1,L2 hyperparameter add (⏫)
+autoencoder + lgbmclassifier + girdsearch cv(L1,L2 hyperparameter add) <- (⏫)
+
+improve goal : autoencoder loss problem <- data scaling needs 
