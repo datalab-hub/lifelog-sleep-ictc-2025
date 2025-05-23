@@ -10,9 +10,9 @@ RandomforestClassifier -> gird search LGBM (⏫)
 
 🗓️2. 25/05/20
 
-🗐 dacon_etri_base_mod3_1.ipynb
+🗐 dacon_etri_base_mod4_1.ipynb
 
-Improved code upon dacon_etri_base_mod3.ipynb
+Improved code upon dacon_etri_base_mod4.ipynb
 
 autoencoder + lgbmclassifier + girdsearch cv(L1,L2 hyperparameter add) <- (⏫)
 
