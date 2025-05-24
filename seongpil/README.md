@@ -4,9 +4,7 @@
 
 Improved code upon dacon_etri_base_mod2.ipynb
 
-Changed: gridsearch cv add
-
-RandomforestClassifier -> gird search LGBM (⏫)
+Changed: gridsearch cv add, RandomforestClassifier -> gird search LGBM (⏫)
 
 🗓️2. 25/05/20
 
