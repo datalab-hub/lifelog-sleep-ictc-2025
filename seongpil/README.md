@@ -1,3 +1,15 @@
+🗓️ 25/06/02
+
+🗐 dacon_etri_base_mod4_7.ipynb
+
+<- shaply value < - no effect
+
+🗓️ 25/06/01
+
+🗐 dacon_etri_base_mod4_6.ipynb
+
+<- minjeong feature code + autoencoder <- no effect
+
 🗓️ 25/05/30
 
 🗐 dacon_etri_base_mod4_4.ipynb
