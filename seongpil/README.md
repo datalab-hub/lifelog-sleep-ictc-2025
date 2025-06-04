@@ -1,3 +1,8 @@
+🗓️ 25/06/04
+
+🗐  dacon_etri_base_mod 4_1 base code upon -> dacon_etri_base_mod5.ipynb
+m_activity preprocessing -> column add -> feature 20 select
+
 🗓️ 25/06/02
 
 🗐 dacon_etri_base_mod4_7.ipynb
