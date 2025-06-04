@@ -1,3 +1,17 @@
+## 🗓️6. 25/06/04
+### 🗐 dacon_etri_base_mod5.ipynb  
+* from dacon_etri_base_mod4_1.ipynb 
+* Changed:   
+>  (*) 
+* Model: (LGBM, L1, L2) -> 
+
+## 🗓️5. 25/06/03
+### 🗐 dacon_etri_base_mod4_1_1.ipynb  
+* from dacon_etri_base_mod4_1.ipynb 
+* Changed: feature
+> Selected 20 features with Weighted average 
+* GridSearch -> Optuna
+
 ## 🗓️4. 25/06/01
 ### 🗐 dacon_etri_base_mod3_2_1.ipynb  
 * Preprocessing from dacon_etri_base_mod3_1.ipynb 
