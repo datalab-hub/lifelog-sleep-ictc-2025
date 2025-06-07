@@ -1,16 +1,15 @@
-## 🗓️6. 25/06/04
+## 🗓️6. 25/06/07
 ### 🗐 dacon_etri_base_mod5.ipynb  
 * from dacon_etri_base_mod4_1.ipynb 
-* Changed:   
+* Changed: model    
 >  (*) 
-* Model: (LGBM, L1, L2) -> 
+* Model: (LGBM, L1, L2) -> MTL(MultiTaskLearning)
 
-## 🗓️5. 25/06/03
+## 🗓️5. 25/06/07
 ### 🗐 dacon_etri_base_mod4_1_1.ipynb  
 * from dacon_etri_base_mod4_1.ipynb 
-* Changed: feature
-> Selected 20 features with Weighted average 
-* GridSearch -> Optuna
+* Changed: 파생변수 추가
+
 
 ## 🗓️4. 25/06/01
 ### 🗐 dacon_etri_base_mod3_2_1.ipynb  
