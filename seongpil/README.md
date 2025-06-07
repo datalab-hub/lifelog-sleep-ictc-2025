@@ -1,3 +1,10 @@
+🗓️ 25/06/07
+
+🗐  dacon_etri_base_mod 4_4 base code upon -> dacon_etri_base_mod4_4_1.ipynb
+
+preprocessing add -> column add -> feature 20 select, voting ensemble selected
+
+
 🗓️ 25/06/04
 
 🗐  dacon_etri_base_mod 5 base code upon -> dacon_etri_base_mod5_1.ipynb (just autoencoder delete)
