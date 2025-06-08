@@ -1,3 +1,9 @@
+🗓️ 25/06/08
+
+🗐  dacon_etri_base_mod 4_1 base code upon -> dacon_etri_base_mod4_1_1.ipynb
+
+individual feature selected  -> feature 20 select, class imbalance and retry code
+
 🗓️ 25/06/07
 
 🗐  dacon_etri_base_mod 4_4 base code upon -> dacon_etri_base_mod4_4_1.ipynb
