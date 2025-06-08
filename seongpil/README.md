@@ -2,7 +2,7 @@
 
 🗐  dacon_etri_base_mod 4_1 base code upon -> dacon_etri_base_mod4_1_1.ipynb
 
-individual feature selected  -> feature 20 select, class imbalance and retry code
+individual feature selected  -> feature 20 select, class imbalance and retry code (smote try , autoencdoer delete 실행)
 
 🗓️ 25/06/07
 
