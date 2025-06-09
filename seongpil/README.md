@@ -3,6 +3,7 @@
 🗐  dacon_etri_base_mod 4_1_1 base code upon -> dacon_etri_base_mod4_1_2.ipynb -> dacon_etri_base_mod4_1_3.ipynb
 
 individual feature selected  -> binary feature 10 select, multi feature 20 select, autoencdoer delete 실행
+
 smote 실행 -> public score 4 point up
 
 🗓️ 25/06/08
