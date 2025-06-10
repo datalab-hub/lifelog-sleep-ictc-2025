@@ -1,3 +1,9 @@
+🗓️ 25/06/10
+
+🗐  dacon_etri_base_mod4_1_6.ipynb
+
+individual feature selected  -> smote 실행 , binary feature 10 select, multi feature 20 select, macro f1 score
+
 🗓️ 25/06/09
 
 🗐  dacon_etri_base_mod 4_1_1 base code upon -> dacon_etri_base_mod4_1_2.ipynb -> dacon_etri_base_mod4_1_3.ipynb
