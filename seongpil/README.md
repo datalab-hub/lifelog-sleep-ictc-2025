@@ -1,3 +1,9 @@
+🗓️ 25/06/16
+
+🗐  dacon_etri_base_mod4_1_6.ipynb upon  
+
+voting_ensmeble_lgbm select, complete_autoencoder_lgbm select
+
 🗓️ 25/06/10
 
 🗐  dacon_etri_base_mod4_1_6.ipynb
