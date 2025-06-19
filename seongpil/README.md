@@ -1,3 +1,9 @@
+🗓️ 25/06/19
+
+🗐  dacon_etri_base_mod4_1_6.ipynb upon -> dacon_etri_base_mod4_1_666.ipynb
+
+change feature
+
 🗓️ 25/06/16
 
 🗐  dacon_etri_base_mod4_1_6.ipynb upon  
