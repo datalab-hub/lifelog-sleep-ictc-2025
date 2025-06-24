@@ -1,0 +1,277 @@
+# 과적합 방지를 위한 강건한 베이지안 최적화
+import optuna
+from optuna.samplers import TPESampler
+import numpy as np
+import pandas as pd
+from lightgbm import LGBMClassifier
+from sklearn.model_selection import train_test_split, StratifiedKFold, cross_val_score
+from sklearn.metrics import classification_report, confusion_matrix, f1_score, accuracy_score
+import warnings
+warnings.filterwarnings('ignore')
+
+# ------------------ 강건한 베이지안 최적화 함수 ------------------
+def robust_optimize_lgbm(X, y, task_type='binary', n_trials=30, study_name=None):
+    """
+    과적합 방지를 위한 강건한 베이지안 최적화
+    """
+    
+    def objective(trial):
+        # 과적합 방지를 위한 보수적인 하이퍼파라미터 범위
+        params = {
+            'objective': 'binary' if task_type == 'binary' else 'multiclass',
+            'learning_rate': trial.suggest_float('learning_rate', 0.01, 0.1),  # 더 보수적
+            'n_estimators': trial.suggest_int('n_estimators', 100, 1000),     # 범위 축소
+            'num_leaves': trial.suggest_int('num_leaves', 10, 100),           # 더 단순
+            'max_depth': trial.suggest_int('max_depth', 3, 8),                # 깊이 제한
+            'min_child_samples': trial.suggest_int('min_child_samples', 10, 50), # 높은 최소값
+            'subsample': trial.suggest_float('subsample', 0.7, 0.9),          # 더 보수적
+            'colsample_bytree': trial.suggest_float('colsample_bytree', 0.7, 0.9),
+            'reg_alpha': trial.suggest_float('reg_alpha', 0.0, 0.5),          # 정규화 강화
+            'reg_lambda': trial.suggest_float('reg_lambda', 0.0, 0.5),
+            'random_state': 42,
+            'n_jobs': -1,
+            'verbosity': -1,
+            'force_col_wise': True  # 안정성 향상
+        }
+        
+        if task_type == 'multiclass':
+            params['num_class'] = len(np.unique(y))
+        
+        # 더 엄격한 교차검증 (5-fold)
+        model = LGBMClassifier(**params)
+        cv = StratifiedKFold(n_splits=5, shuffle=True, random_state=42)
+        
+        scoring = 'f1' if task_type == 'binary' else 'f1_macro'
+        scores = cross_val_score(model, X, y, cv=cv, scoring=scoring, n_jobs=-1)
+        
+        # 평균과 표준편차를 모두 고려 (안정성 중시)
+        mean_score = scores.mean()
+        std_score = scores.std()
+        robust_score = mean_score - 0.1 * std_score  # 변동성 페널티
+        
+        return robust_score
+    
+    sampler = TPESampler(seed=42)
+    study = optuna.create_study(
+        direction='maximize',
+        sampler=sampler,
+        study_name=study_name or f'robust_lgbm_{task_type}'
+    )
+    
+    print(f"🔍 {study_name or 'LightGBM'} 강건한 베이지안 최적화 시작 ({n_trials}회 시도)")
+    
+    def callback(study, trial):
+        if trial.number % 5 == 0:
+            print(f"   시도 {trial.number}: 현재 최고 점수 = {study.best_value:.4f}")
+    
+    study.optimize(objective, n_trials=n_trials, callbacks=[callback])
+    
+    print(f"✅ 최적화 완료!")
+    print(f"   최고 점수: {study.best_value:.4f}")
+    print(f"   최적 파라미터: {study.best_params}")
+    
+    return study.best_params, study.best_value
+
+# ------------------ 검증 강화 함수 ------------------
+def validate_model_performance(X_train, y_train, X_val, y_val, params, task_type='binary'):
+    """
+    모델 성능을 더 엄격하게 검증
+    """
+    model = LGBMClassifier(**params)
+    model.fit(X_train, y_train)
+    
+    train_pred = model.predict(X_train)
+    val_pred = model.predict(X_val)
+    
+    if task_type == 'binary':
+        train_score = f1_score(y_train, train_pred)
+        val_score = f1_score(y_val, val_pred)
+    else:
+        train_score = f1_score(y_train, train_pred, average='macro')
+        val_score = f1_score(y_val, val_pred, average='macro')
+    
+    overfitting = train_score - val_score
+    
+    print(f"   훈련 F1: {train_score:.4f}")
+    print(f"   검증 F1: {val_score:.4f}")
+    print(f"   과적합도: {overfitting:.4f} {'⚠️' if overfitting > 0.1 else '✅'}")
+    
+    return val_score, overfitting
+
+# ------------------ 강건한 이진 분류 최적화 ------------------
+print("\\n===== 강건한 베이지안 최적화를 이용한 이진 분류 =====")
+
+robust_binary_preds = {}
+robust_binary_params = {}
+robust_binary_scores = {}
+
+for col in targets_binary:
+    print(f"\\n{'='*50}")
+    print(f"📊 {col} 강건한 이진 분류 최적화")
+    print(f"{'='*50}")
+    
+    y = train_df[col]
+    
+    # 훈련/검증 분할 (실제 성능 확인용)
+    X_train, X_val, y_train, y_val = train_test_split(
+        X_combined, y, test_size=0.2, random_state=42, stratify=y
+    )
+    
+    # 강건한 베이지안 최적화
+    best_params, best_score = robust_optimize_lgbm(
+        X_train, y_train,  # 훈련 데이터만 사용
+        task_type='binary',
+        n_trials=25,  # 조금 줄여서 과최적화 방지
+        study_name=f"robust_{col}_binary"
+    )
+    
+    # 검증 성능 확인
+    print(f"\\n📊 {col} 모델 검증:")
+    val_score, overfitting = validate_model_performance(
+        X_train, y_train, X_val, y_val, best_params, 'binary'
+    )
+    
+    # 과적합이 심한 경우 더 단순한 파라미터로 조정
+    if overfitting > 0.15:
+        print(f"   ⚠️ 과적합 감지! 더 단순한 모델로 조정...")
+        best_params.update({
+            'learning_rate': max(0.01, best_params['learning_rate'] * 0.5),
+            'num_leaves': min(50, best_params['num_leaves']),
+            'max_depth': min(5, best_params['max_depth']),
+            'reg_alpha': best_params['reg_alpha'] + 0.1,
+            'reg_lambda': best_params['reg_lambda'] + 0.1
+        })
+        
+        # 재검증
+        val_score, overfitting = validate_model_performance(
+            X_train, y_train, X_val, y_val, best_params, 'binary'
+        )
+    
+    # 전체 데이터로 최종 모델 훈련
+    final_model = LGBMClassifier(**best_params)
+    final_model.fit(X_combined, y)
+    robust_binary_preds[col] = final_model.predict(test_X_combined)
+    
+    robust_binary_params[col] = best_params
+    robust_binary_scores[col] = val_score  # 검증 점수 사용
+    
+    print(f"✅ {col} 최종 검증 F1: {val_score:.4f}")
+
+# ------------------ 강건한 다중 분류 최적화 ------------------
+print(f"\\n{'='*50}")
+print(f"📊 S1 강건한 다중 분류 최적화")
+print(f"{'='*50}")
+
+y_multi = train_df['S1']
+
+# 훈련/검증 분할
+X_train_multi, X_val_multi, y_train_multi, y_val_multi = train_test_split(
+    X_combined, y_multi, test_size=0.2, random_state=42, stratify=y_multi
+)
+
+# 강건한 베이지안 최적화
+multi_best_params, multi_best_score = robust_optimize_lgbm(
+    X_train_multi, y_train_multi,
+    task_type='multiclass',
+    n_trials=25,
+    study_name="robust_S1_multiclass"
+)
+
+# 검증 성능 확인
+print(f"\\n📊 S1 모델 검증:")
+val_score_multi, overfitting_multi = validate_model_performance(
+    X_train_multi, y_train_multi, X_val_multi, y_val_multi, 
+    multi_best_params, 'multiclass'
+)
+
+# 과적합 조정
+if overfitting_multi > 0.15:
+    print(f"   ⚠️ 과적합 감지! 더 단순한 모델로 조정...")
+    multi_best_params.update({
+        'learning_rate': max(0.01, multi_best_params['learning_rate'] * 0.5),
+        'num_leaves': min(50, multi_best_params['num_leaves']),
+        'max_depth': min(5, multi_best_params['max_depth']),
+        'reg_alpha': multi_best_params['reg_alpha'] + 0.1,
+        'reg_lambda': multi_best_params['reg_lambda'] + 0.1
+    })
+    
+    val_score_multi, overfitting_multi = validate_model_performance(
+        X_train_multi, y_train_multi, X_val_multi, y_val_multi, 
+        multi_best_params, 'multiclass'
+    )
+
+# 전체 데이터로 최종 모델 훈련
+final_multi_model = LGBMClassifier(**multi_best_params)
+final_multi_model.fit(X_combined, y_multi)
+robust_multiclass_pred = final_multi_model.predict(test_X_combined)
+
+print(f"✅ S1 최종 검증 F1 macro: {val_score_multi:.4f}")
+
+# ------------------ 결과 비교 및 제출 파일 생성 ------------------
+print("\\n===== 강건한 최적화 결과 요약 =====")
+
+print("\\n📊 강건한 이진 분류 결과:")
+total_robust_score = 0
+for col in targets_binary:
+    print(f"  {col}: 검증 F1 = {robust_binary_scores[col]:.4f}")
+    total_robust_score += robust_binary_scores[col]
+
+avg_robust_score = total_robust_score / len(targets_binary)
+print(f"  평균 검증 F1: {avg_robust_score:.4f}")
+
+print(f"\\n📊 강건한 다중 분류 결과:")
+print(f"  S1: 검증 F1 macro = {val_score_multi:.4f}")
+
+# 기존 결과와 비교
+if 'binary_best_scores' in globals():
+    print(f"\\n🔄 기존 vs 강건한 최적화 비교:")
+    for col in targets_binary:
+        old_score = binary_best_scores.get(col, 0)
+        new_score = robust_binary_scores[col]
+        diff = (new_score - old_score) * 100
+        print(f"  {col}: {old_score:.4f} → {new_score:.4f} ({diff:+.2f}%)")
+
+# 강건한 제출 파일 생성
+submission_robust = sample_submission[['subject_id', 'sleep_date', 'lifelog_date']].copy()
+submission_robust['lifelog_date'] = pd.to_datetime(submission_robust['lifelog_date']).dt.date
+submission_robust['ID'] = submission_robust['subject_id'] + '_' + submission_robust['lifelog_date'].astype(str)
+
+# 강건한 예측값 사용
+submission_robust['S1'] = robust_multiclass_pred
+for col in ['Q1', 'Q2', 'Q3', 'S2', 'S3']:
+    submission_robust[col] = robust_binary_preds[col].astype(int)
+
+submission_robust = submission_robust[['subject_id', 'sleep_date', 'lifelog_date', 'Q1', 'Q2', 'Q3', 'S1', 'S2', 'S3']]
+
+# 파일명에 ROBUST 표시
+submission_file_robust = submission_file.replace('.csv', '_ROBUST_BAYESIAN.csv')
+submission_robust.to_csv(submission_folder + submission_file_robust, index=False)
+
+print(f"\\n✅ 강건한 베이지안 최적화 제출 파일 저장: {submission_file_robust}")
+
+# 추가 분석: 특성 중요도 확인
+print("\\n===== 모델 해석성 분석 =====")
+for col in targets_binary[:2]:  # 처음 2개만
+    model = LGBMClassifier(**robust_binary_params[col])
+    model.fit(X_combined, train_df[col])
+    
+    # 특성 중요도 상위 5개
+    feature_names = list(range(X_combined.shape[1]))  # 특성 이름이 없으므로 인덱스 사용
+    importances = model.feature_importances_
+    top_indices = np.argsort(importances)[-5:][::-1]
+    
+    print(f"\\n{col} 상위 특성:")
+    for i, idx in enumerate(top_indices):
+        print(f"  {i+1}. 특성 {idx}: {importances[idx]:.4f}")
+
+print("\\n🎯 강건한 베이지안 최적화 완료!")
+print("📋 과적합 방지 조치:")
+print("  ✅ 보수적인 하이퍼파라미터 범위")
+print("  ✅ 5-fold 교차검증")
+print("  ✅ 변동성 페널티 적용")
+print("  ✅ 훈련/검증 성능 모니터링")
+print("  ✅ 자동 과적합 조정")
+
+print(f"\\n💡 권장사항:")
+print(f"  - 이 강건한 모델이 실제 테스트에서 더 안정적일 가능성이 높습니다")
+print(f"  - 검증 점수가 실제 성능에 더 가까울 것으로 예상됩니다")
