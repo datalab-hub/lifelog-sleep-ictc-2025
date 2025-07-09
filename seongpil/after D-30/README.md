@@ -1,6 +1,6 @@
 🗓️ 25/07/09
 
-🗐  baseline_mod4_1_6.ipynb upon -> baseline_LSTM.ipynb
+🗐  baseline_mod4_1_6.ipynb upon -> baseline_LSTM.ipynb, baseline_catboost.ipynb
 
  down score
 
