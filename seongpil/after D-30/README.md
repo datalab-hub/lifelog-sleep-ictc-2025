@@ -1,5 +1,12 @@
 🗓️ 25/06/24
 
+🗐  baseline_mod4_1_6.ipynb upon -> baseline_LSTM.ipynb
+
+ down score
+
+
+🗓️ 25/06/24
+
 🗐  baseline_mod4_1_6.ipynb upon -> baseline_regular.ipynb
 
 feature regularizaion 
