@@ -8,7 +8,7 @@ ETRI Human Understanding AI Paper Competition
 ## 📄 Paper
 - 📋 **Title**: Hybrid Autoencoder-LightGBM Approach for Predicting Sleep Health Metrics from Multimodal Lifelog Data
 - 👥 **Authors**: Seongpil Han, Minjeong Kim
-- 📅 **Date**: 2025-09-07 <mark>(Accepted, Not Published)</mark>
+- 📅 **Date**: 2025-09-07 **(Accepted, Not Published)**
 - 📎 **Paper**: [paper/paper_accepted.pdf](paper/paper_accepted.pdf)
 
 ## 🔬 Method
