@@ -1,5 +1,6 @@
-# lifelog-sleep-ictc-2025 (제4회 ETRI 휴먼이해 인공지능 논문경진대회)
-ETRI Human Understanding AI Paper Competition
+# lifelog-sleep-ictc-2025 (제4회 ETRI 휴먼이해 인공지능 논문경진대회)  
+ETRI Human Understanding AI Paper Competition  
+Keyword: 알고리즘 | 정형 | 라이프로그 | 논문 | 분류 | Macro F1-Score    
 
 ## 🏆 Overview
 - **Conference**: 2025 16th International Conference on Information and Communication Technology Convergence (ICTC) - ICTC Workshop on ETRI Human Understanding AI Paper Challenge (IWETRIAI) (Regular)
@@ -38,3 +39,4 @@ ETRI Human Understanding AI Paper Competition
 ├── results/                # Model outputs and predictions
 ├── paper/                  # Research paper and related materials
 └── docs/                   # Additional documentation
+ 
