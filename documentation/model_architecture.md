@@ -16,7 +16,7 @@ Feature Engineering & Selection (20 features)
 ┌─────────────────────────────────────┐
 │           Autoencoder               │
 │  ┌─────────────────────────────────┐│
-│  │ Encoder: 20→128→64→20 (ReLU)   ││
+│  │ Encoder: 20→128→64→20 (ReLU)    ││
 │  │ Decoder: 20→64→128→20 (Sigmoid) ││
 │  └─────────────────────────────────┘│
 └─────────────────────────────────────┘
@@ -136,37 +136,12 @@ for target in ['Q1', 'Q2', 'Q3', 'S1', 'S2', 'S3']:
     models[target] = train_lgbm(enhanced_features, labels[target])
 ```
 
-## 📁 Repository Structure
-```
-├── data/
-│   ├── preprocessing.py
-│   └── feature_engineering.py
-├── models/
-│   ├── autoencoder.py
-│   └── lgbm_classifier.py
-├── experiments/
-│   ├── hyperparameter_tuning.py
-│   └── evaluation.py
-├── notebooks/
-│   └── analysis.ipynb
-└── README.md
-```
-
 ## ⚠️ Limitations
 - Small dataset (10 participants)
 - Missing data due to naturalistic collection
 - Privacy considerations for lifelog data
 - Requires multiple sensor modalities
 
-## 📄 Citation
-```bibtex
-@inproceedings{kim2024hybrid,
-  title={Hybrid Autoencoder-LightGBM Approach for Predicting Sleep Health Metrics from Multimodal Lifelog Data},
-  author={Kim, Minjeong and Han, Seongpil},
-  booktitle={ICTC 2024},
-  year={2024}
-}
-```
 
 ## 📧 Contact
 - Minjeong Kim: kmjng0712@gmail.com
