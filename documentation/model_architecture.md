@@ -3,7 +3,7 @@
 ## 📋 Overview
 This repository contains the implementation of a hybrid deep learning framework that combines autoencoder-based feature extraction with LightGBM classification for predicting sleep health metrics from multimodal lifelog data.
 
-**Publication**: Accepted at ICTC 2024
+**Publication**: Accepted at ICTC 2025 (Not published)
 
 ## 🏗️ Model Architecture
 
