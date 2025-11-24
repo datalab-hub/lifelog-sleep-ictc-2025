@@ -10,11 +10,11 @@ Keyword: 알고리즘 | 정형 | 라이프로그 | 논문 | 분류 | Macro F1-Sc
 - 📋 **Title**: Hybrid Autoencoder-LightGBM Approach for Predicting Sleep Health Metrics from Multimodal Lifelog Data
 - 👥 **Authors**: Seongpil Han, Minjeong Kim
 - 📅 **Date**: 2025-09-07 **(Accepted, Not Published)**
-- 📎 **Paper**: [documentation/1571181257_paper.pdf](documentation/1571181257_paper.pdf)
+- 📎 **Paper**: [paper (not published)](documentation/1571181257_paper.pdf)
 
 ## 🔬 Method
 ### Model Architecture  
-[documentation/model_architecture.pdf](documentation/model_architecture.pdf)  
+[model architecture](documentation/model_architecture.pdf)  
 
 ### Key Contributions
 1. [point1]
