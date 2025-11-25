@@ -17,7 +17,8 @@ Keyword: 알고리즘 | 정형 | 라이프로그 | 논문 | 분류 | Macro F1-Sc
 [model architecture](documentation/model_architecture.pdf)  
 
 ### Key Contributions
-1. [point1]
+1. Hybrid Autoencoder-LightGBM Framework  
+Novel architecture combining unsupervised learning (Autoencoder) with gradient boosting (LightGBM)
 2. [point2]
 
 ## 📊 Results
