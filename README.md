@@ -7,10 +7,9 @@
 - **Topic**: Artificial Intelligence and Machine Learning
 
 ## 📄 Paper
-- 📋 **Title**: Hybrid Autoencoder-LightGBM Approach for Predicting Sleep Health Metrics from Multimodal Lifelog Data
+- 📋 **Title**: [Hybrid Autoencoder-LightGBM Approach for Predicting Sleep Health Metrics from Multimodal Lifelog Data](documentation/1571181257_paper.pdf)
 - 👥 **Authors**: Seongpil Han, Minjeong Kim
 - 📅 **Date**: 2025-09-07 **(Accepted, Not Published)**
-- 📎 **Paper**: [paper](documentation/1571181257_paper.pdf)
 
 ## 🔬 Method
 ### Model Architecture  
