@@ -12,13 +12,30 @@
 - 📅 **Date**: 2025-09-07 **(Accepted, Not Published)**
 
 ## 🔬 Method
-### Model Architecture  
-[model architecture](documentation/model_architecture.pdf)  
+### Model Architecture (Hybrid Autoencoder-LightGBM Framework)  
+```
+Raw Lifelog Data (12 Sensors)
+         ↓
+Feature Engineering
+         ↓
+Feature Selection (Top 20 Features)
+         ↓
+    Autoencoder
+    ├─ Encoder: 20 → 128 → 64 → 20
+    └─ Decoder: 20 → 64 → 128 → 20
+         ↓
+Feature Fusion (20 Original + 20 Latent = 40D)
+         ↓
+LightGBM Classifier
+         ↓
+Sleep Health Predictions (Q1-Q3, S1-S3)
+```
 
-### Key Contributions
-1. Hybrid Autoencoder-LightGBM Framework  
+### Key Contributions  
+1. Systematic Feature Selection  
+Importance-based selection of 20 high-impact features across 6 behavioral categories from 12 sensor modalities  
+2. Hybrid Autoencoder-LightGBM Framework  
 Novel architecture combining unsupervised learning (Autoencoder) with gradient boosting (LightGBM)
-2. [point2]
 
 ## 📊 Results
 - **Final Score**: public 0.6069 (private 0.59)
